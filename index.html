@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Clientes e Pedidos</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>Gestão de Clientes e Pedidos</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Clientes</h2>
+            <button id="btn-novo-cliente">Criar Novo Cliente</button>
+            <input type="text" id="filtro-cliente" placeholder="Buscar por Nome ou CPF">
+            <table id="tabela-clientes">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>CPF</th>
+                        <th>Telefone</th>
+                        <th>Endereço</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Lista de clientes renderizada dinamicamente -->
+                </tbody>
+            </table>
+        </section>
+        <section>
+            <h2>Pedidos</h2>
+            <button id="btn-novo-pedido">Criar Novo Pedido</button>
+            <table id="tabela-pedidos">
+                <thead>
+                    <tr>
+                        <th>Descrição</th>
+                        <th>Valor</th>
+                        <th>Status</th>
+                        <th>Cliente</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Lista de pedidos renderizada dinamicamente -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <script src="js/clientes.js"></script>
+    <script src="js/pedidos.js"></script>
+</body>
+
+</html>
