@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <title>Gestão de Clientes e Pedidos</title>
+    <title>Clientes</title>
 </head>
 
 <body>
@@ -20,7 +20,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="clientes.html">Clientes</a>
+                        <a class="nav-link active" href="clientes.html">Clientes</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="pedidos.html">Pedidos</a>
@@ -32,12 +32,28 @@
 
     <!-- Conteúdo Principal -->
     <div class="container mt-5">
-        <h1 class="text-center">Gestão de Clientes e Pedidos</h1>
-        <div class="d-flex justify-content-center mt-4">
-            <a href="clientes.html" class="btn btn-primary mx-2">Gerenciar Clientes</a>
-            <a href="pedidos.html" class="btn btn-primary mx-2">Gerenciar Pedidos</a>
+        <h1 class="mb-4">Clientes</h1>
+        <div class="d-flex justify-content-between mb-3">
+            <button id="btn-novo-cliente" class="btn btn-success">Novo Cliente</button>
+            <input type="text" id="busca-cliente" class="form-control w-50" placeholder="Buscar por Nome ou CPF">
         </div>
+        <table id="tabela-clientes" class="table table-striped">
+            <thead class="table-primary">
+                <tr>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Telefone</th>
+                    <th>Endereço</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Clientes serão carregados dinamicamente -->
+            </tbody>
+        </table>
     </div>
+
+    <script src="js/clientes.js"></script>
 </body>
 
 </html>
