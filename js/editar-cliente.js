@@ -24,15 +24,21 @@ document.querySelector("#form-editar-cliente").onsubmit = function (e) {
     const cpf = document.querySelector("#cpf").value;
     const telefone = document.querySelector("#telefone").value;
     const endereco = document.querySelector("#endereco").value;
+    const id = clienteId;
 
     if (!nome || !cpf || !telefone) {
         alert("Nome , CPF e telefone são obrigatórios.");
         return;
     }
 
-    const cliente = { nome, cpf, telefone, endereco };
+    if (cpf.length !== 11) {
+        alert("O CPF deve conter 11 dígitos.");
+        return;
+    }
 
-    fetch(`${API_CLIENTES}/editar/${clienteId}`, {
+    const cliente = { id, nome, cpf, telefone, endereco };
+
+    fetch(`${API_CLIENTES}/editar`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(cliente),
