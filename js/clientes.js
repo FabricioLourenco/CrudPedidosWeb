@@ -1,10 +1,7 @@
-// URLs da API para Clientes
 const API_CLIENTES = "http://localhost:8080/cliente";
 
-// Carregar lista de clientes ao iniciar
 window.onload = carregarClientes;
 
-// Carregar clientes do banco e exibir na tabela
 function carregarClientes() {
     fetch(`${API_CLIENTES}/listar`)
         .then(response => {
@@ -15,69 +12,59 @@ function carregarClientes() {
         })
         .then(clientes => {
             const tabela = document.querySelector("#tabela-clientes tbody");
-            tabela.innerHTML = ""; // Limpa a tabela antes de preencher novamente
-            clientes.forEach(cliente => {
-                const linha = `
-                    <tr>
-                        <td>${cliente.nome}</td>
-                        <td>${cliente.cpf}</td>
-                        <td>${cliente.telefone || "Não informado"}</td>
-                        <td>${cliente.endereco || "Não informado"}</td>
-                        <td>
-                            <button class="btn btn-warning btn-sm editar-btn" data-id="${cliente.id}">Editar</button>
-                            <button class="btn btn-danger btn-sm excluir-btn" data-id="${cliente.id}">Excluir</button>
-                        </td>
-                    </tr>
-                `;
-                tabela.innerHTML += linha;
+            tabela.innerHTML = "";
+
+            // Função para exibir os clientes na tabela
+            function exibirClientes(clientesFiltrados) {
+                tabela.innerHTML = "";
+                clientesFiltrados.forEach(cliente => {
+                    const linha = `
+                        <tr>
+                            <td>${cliente.nome}</td>
+                            <td>${cliente.cpf}</td>
+                            <td>${cliente.telefone || "Não informado"}</td>
+                            <td>${cliente.endereco || "Não informado"}</td>
+                            <td>
+                                <a href="editar-cliente.html?id=${cliente.id}" class="btn btn-warning btn-sm">Editar</a>
+                                <button class="btn btn-danger btn-sm excluir-btn" data-id="${cliente.id}">Excluir</button>
+                            </td>
+                        </tr>
+                    `;
+                    tabela.innerHTML += linha;
+                });
+
+                document.querySelectorAll('.excluir-btn').forEach(button => {
+                    button.addEventListener('click', function () {
+                        const id = this.getAttribute('data-id');
+                        excluirCliente(id);
+                    });
+                });
+            }
+
+            // Exibir todos os clientes inicialmente
+            exibirClientes(clientes);
+
+            // Buscar clientes com base no nome ou CPF
+            document.querySelector('#btn-busca').addEventListener('click', () => {
+                const busca = document.querySelector('#busca-cliente').value.toLowerCase();
+                const clientesFiltrados = clientes.filter(cliente =>
+                    cliente.nome.toLowerCase().includes(busca) || cliente.cpf.includes(busca)
+                );
+                exibirClientes(clientesFiltrados);
             });
 
-            // Adicionar eventos de clique para os botões de Editar e Excluir
-            document.querySelectorAll('.editar-btn').forEach(button => {
-                button.addEventListener('click', function () {
-                    const id = this.getAttribute('data-id');
-                    editarCliente(id);
-                });
-            });
-
-            document.querySelectorAll('.excluir-btn').forEach(button => {
-                button.addEventListener('click', function () {
-                    const id = this.getAttribute('data-id');
-                    excluirCliente(id);
-                });
+            // Também adicionar filtro enquanto o usuário digita
+            document.querySelector('#busca-cliente').addEventListener('input', () => {
+                const busca = document.querySelector('#busca-cliente').value.toLowerCase();
+                const clientesFiltrados = clientes.filter(cliente =>
+                    cliente.nome.toLowerCase().includes(busca) || cliente.cpf.includes(busca)
+                );
+                exibirClientes(clientesFiltrados);
             });
         })
         .catch(error => alert(`Erro ao carregar clientes: ${error.message}`));
 }
 
-// Criar Cliente
-document.querySelector("#btn-novo-cliente").onclick = function () {
-    const nome = prompt("Nome do Cliente:");
-    const cpf = prompt("CPF do Cliente:");
-    const telefone = prompt("Telefone do Cliente (opcional):");
-    const endereco = prompt("Endereço do Cliente (opcional):");
-
-    if (!nome || !cpf) {
-        alert("Nome e CPF são obrigatórios.");
-        return;
-    }
-
-    const cliente = { nome, cpf, telefone, endereco };
-
-    fetch(`${API_CLIENTES}/salvar`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(cliente),
-    })
-        .then(response => {
-            if (!response.ok) throw new Error("Erro ao salvar cliente.");
-            alert("Cliente salvo com sucesso!");
-            carregarClientes();
-        })
-        .catch(error => alert(`Erro ao salvar cliente: ${error}`));
-};
-
-// Editar Cliente
 function editarCliente(id) {
     fetch(`${API_CLIENTES}/${id}`)
         .then(response => response.json())
@@ -109,7 +96,6 @@ function editarCliente(id) {
         });
 }
 
-
 function excluirCliente(id) {
     if (!confirm("Deseja realmente excluir este cliente?")) return;
 
@@ -117,11 +103,11 @@ function excluirCliente(id) {
         method: "DELETE"
     })
         .then(response => {
-            // Verificar se a resposta é ok (status 2xx)
+
             if (!response.ok) {
                 return response.text().then(errorMessage => {
                     console.error("Erro ao excluir cliente:", errorMessage);
-                    throw new Error(errorMessage); // Lançar a mensagem de erro como exceção
+                    throw new Error(errorMessage);
                 });
             }
 
@@ -130,5 +116,3 @@ function excluirCliente(id) {
         })
         .catch(error => alert(`Erro ao excluir cliente: ${error.message}`));
 }
-
-
