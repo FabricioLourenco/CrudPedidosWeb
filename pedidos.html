@@ -10,7 +10,6 @@
 </head>
 
 <body>
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
             <a class="navbar-brand" href="index.html">Gestão</a>
@@ -30,10 +29,16 @@
         </div>
     </nav>
 
-    <!-- Conteúdo Principal -->
     <div class="container mt-5">
         <h1 class="mb-4">Pedidos</h1>
-        <button id="btn-novo-pedido" class="btn btn-success mb-3">Novo Pedido</button>
+        <div class="d-flex justify-content-between mb-3">
+            <a href="novo-pedido.html" class="btn btn-success">Novo Pedido</a>
+            <div class="d-flex w-75 justify-content-end">
+                <input type="text" id="busca-pedido" class="form-control w-25"
+                    placeholder="Buscar pelo nome do cliente">
+                <button id="btn-busca" class="btn btn-primary ms-2">Pesquisar</button>
+            </div>
+        </div>
         <table id="tabela-pedidos" class="table table-striped">
             <thead class="table-primary">
                 <tr>
@@ -45,7 +50,6 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Pedidos serão carregados dinamicamente -->
             </tbody>
         </table>
     </div>

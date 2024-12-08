@@ -13,8 +13,6 @@ function carregarClientes() {
         .then(clientes => {
             const tabela = document.querySelector("#tabela-clientes tbody");
             tabela.innerHTML = "";
-
-            // Função para exibir os clientes na tabela
             function exibirClientes(clientesFiltrados) {
                 tabela.innerHTML = "";
                 clientesFiltrados.forEach(cliente => {
@@ -63,37 +61,6 @@ function carregarClientes() {
             });
         })
         .catch(error => alert(`Erro ao carregar clientes: ${error.message}`));
-}
-
-function editarCliente(id) {
-    fetch(`${API_CLIENTES}/${id}`)
-        .then(response => response.json())
-        .then(cliente => {
-            const nome = prompt("Nome do Cliente:", cliente.nome);
-            const cpf = prompt("CPF do Cliente:", cliente.cpf);
-            const telefone = prompt("Telefone do Cliente:", cliente.telefone || "");
-            const endereco = prompt("Endereço do Cliente:", cliente.endereco || "");
-
-            // Validação
-            if (!nome || !cpf) {
-                alert("Nome e CPF são obrigatórios.");
-                return;
-            }
-
-            const clienteAtualizado = { nome, cpf, telefone, endereco };
-
-            fetch(`${API_CLIENTES}/editar`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(clienteAtualizado),
-            })
-                .then(response => {
-                    if (!response.ok) throw new Error("Erro ao editar cliente.");
-                    alert("Cliente atualizado com sucesso!");
-                    carregarClientes();
-                })
-                .catch(error => alert(`Erro ao editar cliente: ${error.message}`));
-        });
 }
 
 function excluirCliente(id) {
